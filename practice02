@@ -1,7 +1,6 @@
 /**
  *ktNexR 사이트의 검색기능 Test
  *검색 단어가 각각의 검색된 리스트에 있는지 검사
- *사용된 API - selenium
  */
 
 package com.example;
@@ -52,11 +51,9 @@ public class Example5 {
 	
 	//테스트 대상 메소드
 	@Test
-	public void testSearch() throws Exception {
-		
+	public void testSearch() throws Exception {		
 		//검색할 단어 개수만큼 반복
 		for(int i=0; i<searchWordList.size(); i++) {
-			
 			//WebElement를 통해 HTML요소를 Java내에 객체화함
 			WebElement searchBar = driver.findElement(By.id("topSearchWord"));
 			WebElement btn = driver.findElement(By.className("saBtn"));
@@ -77,20 +74,18 @@ public class Example5 {
 	
 	//실제값과 예측값이 같은지 검사하는 메소드
 	public void checkEquals(String path, int i) {
-		
-		//idx: 검색내용 리스트 number
+		//idx: 검색내용 리스트 번호
 		for(int idx=1;;idx++) {
 			//try-catch
 			try {
-				
-				//검색 내용 일부를 content에 저장
+				//검색 내용을 content에 저장
 				WebElement content = driver.findElement(By.xpath(path + "//dl["+idx+"]"));
 				
 				//searchWord 메소드를 통해 content에서 단어 검색
-				String testWord = searchWord(searchWordList.get(i), content.getText());
+				boolean result = searchWord(searchWordList.get(i), content.getText());
 				
 				//assertEquals 단정문을 통해 실제값과 예측값이 같은지 확인 
-				Assert.assertEquals(searchWordList.get(i), testWord);
+				Assert.assertTrue(result);
 				System.out.println("Expected value equals Actual value");
 				
 			//NoSuchElementException이 발생하면 for문 break	
@@ -101,21 +96,21 @@ public class Example5 {
 		}	
 	}
 	
-	//content에서 실제값을 추출하는 메소드
-	public String searchWord(String word, String content) {
+	//content에서 검색한 단어가 존재하는지 판단하는 함수
+	public boolean searchWord(String word, String content) {
 		int sizeOfWord = word.length();
 		int sizeOfCont = content.length();
 		
 		for(int i=0; i<sizeOfCont-sizeOfWord; i++) {
 			String temp = content.substring(i, i+sizeOfWord);
 			if(word.equals(temp)) {
-				return temp;
+				return true;
 			}
 			else {
 				continue;
 			}
 		}
-		return "";
+		return false;
 	}
 	
 	//AfterClass
