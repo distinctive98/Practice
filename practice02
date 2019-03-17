@@ -81,10 +81,10 @@ public class Example5 {
 				//검색 내용을 content에 저장
 				WebElement content = driver.findElement(By.xpath(path + "//dl["+idx+"]"));
 				
-				//searchWord 메소드를 통해 content에서 단어 검색
+				//searchWord 메소드를 통해 content에서 단어 존재 여부 판단
 				boolean result = searchWord(searchWordList.get(i), content.getText());
 				
-				//assertEquals 단정문을 통해 실제값과 예측값이 같은지 확인 
+				//assertTrue 단정문을 통해 참/거짓을 판별
 				Assert.assertTrue(result);
 				System.out.println("Expected value equals Actual value");
 				
